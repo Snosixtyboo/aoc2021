@@ -1,7 +1,7 @@
 import * as day01 from "./day01.js"
 
 import hljs from 'highlight.js/lib/core'
-import typescript from 'highlight.js/lib/languages/javascript'
+import typescript from 'highlight.js/lib/languages/typescript'
 hljs.registerLanguage( 'typescript', typescript )
 
 let button: HTMLButtonElement = document.createElement( "button" )
