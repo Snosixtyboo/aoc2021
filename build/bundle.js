@@ -3299,7 +3299,7 @@
   fetch("ts/day01.ts").then(response => response.text()).then(text => {
       text = text.substr(0, text.indexOf("// EOC"));
       code.innerHTML = text;
-      core.highlightAll();
+      core.highlightBlock(codePre);
   });
 
 }));
