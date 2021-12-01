@@ -13,7 +13,7 @@ let code: HTMLElement = document.createElement( "code" )
 code.attributes[ 'language' ] = 'typescript'
 codePre.appendChild( code )
 document.body.appendChild( codePre )
-fetch( "/ts/day01.ts" ).then( response => response.text() ).then( text => 
+fetch( "ts/day01.ts" ).then( response => response.text() ).then( text => 
 {
     text = text.substr( 0, text.indexOf( "// EOC" ) )
     code.innerHTML = text
