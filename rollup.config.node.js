@@ -9,7 +9,7 @@ export default {
     },
     plugins: [
         resolve({
-            browser: true,
+            browser: false,
         }),
         commonjs()
     ]
