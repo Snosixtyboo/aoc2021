@@ -4,7 +4,7 @@ import commonjs from '@rollup/plugin-commonjs'
 export default {
     input: 'js/webbase.js',
     output: {
-        file: 'build/bundle.js',
+        file: 'build/aoc_web.js',
         format: 'umd'
     },
     plugins: [
@@ -12,5 +12,5 @@ export default {
             browser: true,
         }),
         commonjs()
-    ],
+    ]
 }
