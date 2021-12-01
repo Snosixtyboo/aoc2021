@@ -1,0 +1,39 @@
+@import url(https://fonts.googleapis.com/css?family=Pacifico);
+body {
+  padding: 0 100px 100px;
+  background-color: #334 !important;
+}
+
+h1#header {
+  text-align: center;
+  padding: 0px 0px 0px 0px;
+  font-size: 62px;
+  font-family: "Pacifico";
+  color: #eee;
+  text-shadow: 0 4px 4px #3c77b3;
+}
+
+button {
+    display: inline-block;
+    padding: 15px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #3c77b3;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+    margin: 0.5em 0.5em 0.5em 0.5em;
+    font-family: "Pacifico";
+  }
+  
+  button:hover {background-color: #2c67a3}
+  
+  button:active {
+    background-color: #3c77b3;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }

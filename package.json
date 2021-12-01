@@ -1,0 +1,12 @@
+{
+    "name": "aoc",
+    "version": "21.0.0",
+    "description": "",
+    "type": "module",
+    "author": "Bernhard Kerbl",
+    "dependencies": {
+        "@rollup/plugin-commonjs": "^21.0.1",
+        "@rollup/plugin-node-resolve": "^13.0.6",
+        "highlight.js": "^11.3.1"
+    }
+}
