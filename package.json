@@ -3,6 +3,10 @@
     "version": "21.0.0",
     "description": "",
     "type": "module",
+    "scripts": {
+        "build": "tsc & rollup -c rollup.config.web.js & rollup -c rollup.config.node.js",
+        "build-web": "tsc & rollup -c rollup.config.web.js"
+    },
     "author": "Bernhard Kerbl",
     "devDependencies": {
         "@rollup/plugin-commonjs": "^21.0.1",

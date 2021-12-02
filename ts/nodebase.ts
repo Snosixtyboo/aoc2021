@@ -1,3 +1,21 @@
-import * as day01 from "./day01.js"
+// import * as load from "./load"
+// import * as fs from "fs"
 
-console.log( "Node.js AOC Test" )
+// const readFileNode: load.FileReadFunc = function ( file: string ): { success: boolean, content: string } 
+// {
+//     let content: string
+//     try
+//     {
+//         content = fs.readFileSync( file, 'utf8' )
+//     }
+//     catch ( error )
+//     {
+//         return { success: false, content: "" }
+//     }
+//     return { success: true, content: content }
+// }
+
+// load.loadDays( readFileNode )
+
+// console.log( "Node.js AOC Test" )
+

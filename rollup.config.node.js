@@ -5,8 +5,9 @@ export default {
     input: 'js/nodebase.js',
     output: {
         file: 'build/aoc_cli.js',
-        format: 'umd'
+        format: 'es'
     },
+    inlineDynamicImports: true,
     plugins: [
         resolve({
             browser: false,
