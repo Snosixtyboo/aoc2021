@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 body {
   padding: 0 100px 100px;
-  background-color: #334 !important;
+  background-color: rgb(150, 188, 236) !important;
 }
 
 h1#header {
@@ -36,13 +36,13 @@ button {
     display: block;
   }
 
-  #challenges {
+  #parts {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  #challenge{
+  #part{
     flex: 1;
     padding: 10px;
     display: block;
@@ -68,4 +68,11 @@ button {
     height: 20em;
     resize: none;
     border-radius: 5px;
+  }
+
+  #partRun{
+    font-size: 20px;
+    font-family: "Pacifico";
+    color: #eee;
+    text-shadow: 0 4px 4px #3c77b3;
   }

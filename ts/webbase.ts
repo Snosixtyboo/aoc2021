@@ -25,32 +25,40 @@ function createDay ( day: load.DayData )
     let dayCodeDiv: HTMLDivElement = document.createElement( "div" )
     dayCodeDiv.id = "code"
     let codeHeading: HTMLHeadingElement = document.createElement( "h2" )
-    codeHeading.innerHTML = "Solution for Part 1 & 2"
+    codeHeading.innerHTML = "Solution for " + day.name
     dayCodeDiv.append( codeHeading )
     let dayCode: HTMLPreElement = document.createElement( "pre" )
     let daySrc: HTMLElement = document.createElement( "code" )
-    daySrc.innerHTML = day.source
+    daySrc.appendChild( document.createTextNode( day.source ) )
     hljs.highlightElement( daySrc )
     dayCode.appendChild( daySrc )
     dayCodeDiv.appendChild( dayCode )
     dayParagraph.appendChild( dayCodeDiv )
 
-    let challengesDiv: HTMLDivElement = document.createElement( "div" )
-    challengesDiv.id = "challenges"
-    let inputs = [ day.input1, day.input2 ]
+    let partsDiv: HTMLDivElement = document.createElement( "div" )
+    partsDiv.id = "parts"
+    let parts = [ { input: day.input1, func: day.solve1 }, { input: day.input2, func: day.solve2 } ]
     for ( let c: number = 0; c < 2; c++ )
     {
-        let challengeDiv: HTMLDivElement = document.createElement( "div" )
-        challengeDiv.id = "challenge"
-        challengesDiv.append( challengeDiv )
-        let challengeHeading: HTMLHeadingElement = document.createElement( "h2" )
-        challengeHeading.innerHTML = "Input Part " + ( c + 1 ).toString()
-        challengeDiv.append( challengeHeading )
-        let challengeInput: HTMLTextAreaElement = document.createElement( "textarea" )
-        challengeInput.value = inputs[ c ]
-        challengeDiv.append( challengeInput )
+        let partDiv: HTMLDivElement = document.createElement( "div" )
+        partDiv.id = "part"
+        partsDiv.append( partDiv )
+
+        let partHeading: HTMLHeadingElement = document.createElement( "h2" )
+        partHeading.innerHTML = "Input Part " + ( c + 1 ).toString()
+        let partInput: HTMLTextAreaElement = document.createElement( "textarea" )
+        partInput.value = parts[ c ].input
+        let partRunDiv: HTMLHeadingElement = document.createElement( "div" )
+        partRunDiv.id = "partRun"
+        let partRunOutput: Text = document.createTextNode( "???" )
+        let partRunButton: HTMLButtonElement = document.createElement( "button" )
+        partRunButton.innerHTML = "Run!"
+        partRunButton.onclick = () => { partRunOutput.textContent = parts[ c ].func( partInput.value ) }
+        partRunDiv.append( partRunButton, document.createTextNode( "   Output: " ), partRunOutput )
+
+        partDiv.append( partHeading, partInput, partRunDiv )
     }
-    dayParagraph.append( challengesDiv )
+    dayParagraph.append( partsDiv )
 
     contentSpace.appendChild( dayParagraph )
 

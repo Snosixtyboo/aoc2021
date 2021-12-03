@@ -17,8 +17,8 @@ function loadDays(rd) {
             dayData.input1 = contents[1];
             dayData.input2 = contents[2];
             dayData.source = contents[3].substr(0, contents[3].indexOf('// EOC'));
-            dayData.solve1 = contents[4].solve_first;
-            dayData.solve2 = contents[4].solve_second;
+            dayData.solve1 = contents[4].solve_part1;
+            dayData.solve2 = contents[4].solve_part2;
             return dayData;
         }));
     }
