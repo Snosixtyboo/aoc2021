@@ -7,7 +7,7 @@
   License: see project LICENSE
   Touched: 2021
 */
-pre code.hljs{display:block;padding:1em;border-radius:25px;}
+pre code.hljs{display:block;overflow-x:auto;padding:1em;border-radius:25px;}
 code.hljs{padding:3px 5px}
 .hljs{background:#f0f0f0;color:#444}
 .hljs-comment{color:#888}
