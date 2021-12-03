@@ -15,13 +15,33 @@ let contentSpace = document.createElement("p");
 document.body.appendChild(contentSpace);
 function createDay(day) {
     let dayParagraph = document.createElement("p");
-    dayParagraph.innerHTML = day.desc;
+    let dayCodeDiv = document.createElement("div");
+    dayCodeDiv.id = "code";
+    let codeHeading = document.createElement("h2");
+    codeHeading.innerHTML = "Solution for Part 1 & 2";
+    dayCodeDiv.append(codeHeading);
     let dayCode = document.createElement("pre");
     let daySrc = document.createElement("code");
     daySrc.innerHTML = day.source;
-    dayCode.appendChild(daySrc);
     hljs.highlightElement(daySrc);
-    dayParagraph.appendChild(dayCode);
+    dayCode.appendChild(daySrc);
+    dayCodeDiv.appendChild(dayCode);
+    dayParagraph.appendChild(dayCodeDiv);
+    let challengesDiv = document.createElement("div");
+    challengesDiv.id = "challenges";
+    let inputs = [day.input1, day.input2];
+    for (let c = 0; c < 2; c++) {
+        let challengeDiv = document.createElement("div");
+        challengeDiv.id = "challenge";
+        challengesDiv.append(challengeDiv);
+        let challengeHeading = document.createElement("h2");
+        challengeHeading.innerHTML = "Input Part " + (c + 1).toString();
+        challengeDiv.append(challengeHeading);
+        let challengeInput = document.createElement("textarea");
+        challengeInput.value = inputs[c];
+        challengeDiv.append(challengeInput);
+    }
+    dayParagraph.append(challengesDiv);
     contentSpace.appendChild(dayParagraph);
     let button = document.createElement("button");
     button.innerHTML = day.name;

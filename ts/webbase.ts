@@ -1,5 +1,4 @@
 import * as load from "./load"
-
 import hljs from 'highlight.js/lib/core'
 import typescript from 'highlight.js/lib/languages/typescript'
 hljs.registerLanguage( 'typescript', typescript )
@@ -22,13 +21,36 @@ document.body.appendChild( contentSpace )
 function createDay ( day: load.DayData )
 {
     let dayParagraph: HTMLParagraphElement = document.createElement( "p" )
-    dayParagraph.innerHTML = day.desc
+
+    let dayCodeDiv: HTMLDivElement = document.createElement( "div" )
+    dayCodeDiv.id = "code"
+    let codeHeading: HTMLHeadingElement = document.createElement( "h2" )
+    codeHeading.innerHTML = "Solution for Part 1 & 2"
+    dayCodeDiv.append( codeHeading )
     let dayCode: HTMLPreElement = document.createElement( "pre" )
     let daySrc: HTMLElement = document.createElement( "code" )
     daySrc.innerHTML = day.source
-    dayCode.appendChild( daySrc )
     hljs.highlightElement( daySrc )
-    dayParagraph.appendChild( dayCode )
+    dayCode.appendChild( daySrc )
+    dayCodeDiv.appendChild( dayCode )
+    dayParagraph.appendChild( dayCodeDiv )
+
+    let challengesDiv: HTMLDivElement = document.createElement( "div" )
+    challengesDiv.id = "challenges"
+    let inputs = [ day.input1, day.input2 ]
+    for ( let c: number = 0; c < 2; c++ )
+    {
+        let challengeDiv: HTMLDivElement = document.createElement( "div" )
+        challengeDiv.id = "challenge"
+        challengesDiv.append( challengeDiv )
+        let challengeHeading: HTMLHeadingElement = document.createElement( "h2" )
+        challengeHeading.innerHTML = "Input Part " + ( c + 1 ).toString()
+        challengeDiv.append( challengeHeading )
+        let challengeInput: HTMLTextAreaElement = document.createElement( "textarea" )
+        challengeInput.value = inputs[ c ]
+        challengeDiv.append( challengeInput )
+    }
+    dayParagraph.append( challengesDiv )
 
     contentSpace.appendChild( dayParagraph )
 
