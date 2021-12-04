@@ -113,7 +113,6 @@ Promise.allSettled( load.loadDays( readFileWeb ) ).then( function ( days )
     for ( let day of days )
     {
         if ( day.status == 'fulfilled' ) createDay( day.value )
-        else if ( day.reason instanceof FileNotFoundError ) console.log( "Oh, cry me a river!" )
-        else throw Error( day.reason )
+        else console.log( "Oh, cry me a river!" )
     }
 } )
