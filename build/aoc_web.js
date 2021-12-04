@@ -21551,10 +21551,8 @@
         for (let day of days) {
             if (day.status == 'fulfilled')
                 createDay(day.value);
-            else if (day.reason instanceof FileNotFoundError)
-                console.log("Oh, cry me a river!");
             else
-                throw Error(day.reason);
+                console.log("Oh, cry me a river!");
         }
     });
 
