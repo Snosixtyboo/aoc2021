@@ -2,7 +2,7 @@ function solve_part1 ( input: string ): string
 {
     const journey = { forward: 0, up: 0, down: 0 }
     const lines: string[] = input.split( '\n' )
-    lines.forEach( ( line ) => { let [ dir, amt ] = line.split( ' ' ); journey[ dir ] += parseInt( amt ) } )
+    lines.forEach( line => { ( v => journey[ v[ 0 ] ] += parseInt( v[ 1 ] ) )( line.split( ' ' ) ) } )
     const result: number = journey.forward * ( journey.down - journey.up )
     return result.toString()
 }
@@ -15,7 +15,7 @@ function solve_part2 ( input: string ): string
         up: function ( x: number ) { this.aim -= x }, down: function ( x: number ) { this.aim += x }
     }
     const lines: string[] = input.split( '\n' )
-    lines.forEach( ( line ) => { const [ dir, amt ] = line.split( ' ' ); submarine[ dir ]( parseInt( amt ) ) } )
+    lines.forEach( line => { ( v => submarine[ v[ 0 ] ]( parseInt( v[ 1 ] ) ) )( line.split( ' ' ) ) } )
     const result: number = submarine.depth * submarine.horizontal
     return result.toString()
 }

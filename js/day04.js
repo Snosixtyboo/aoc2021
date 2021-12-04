@@ -1,69 +1,55 @@
 const NEVER = Number.MAX_VALUE;
-class BingoLine {
-    constructor(board) {
-        this.marked = 0;
-        this.lastHitWhen = 0;
-        this.lastHitValue = 0;
-        this.board = board;
-    }
-    update(when, value) {
-        if (this.lastHitWhen < when) {
-            this.lastHitWhen = when;
-            this.lastHitValue = value;
-        }
-        if (++this.marked == 5 && this.lastHitWhen < this.board.winDraw) {
-            this.board.winDraw = this.lastHitWhen;
-            this.board.winValue = this.lastHitValue;
-        }
-    }
-}
 class Board {
-    constructor(input, val2Draw) {
-        this.winDraw = NEVER;
-        this.winValue = 0;
-        this.winScore = 0;
-        this.content = Array(25);
-        this.drawnWhen = Array(25).fill(NEVER);
-        this.rows = Array.from(Array(5), () => new BingoLine(this));
-        this.cols = Array.from(Array(5), () => new BingoLine(this));
+    constructor(input, drawnWhen) {
+        this.win = { value: 0, when: NEVER };
+        this.score = 0;
+        this.field = Array.from(Array(5), () => new Array());
         for (let row = 0; row < 5; row++) {
             const line = input[row].trim().split(/\s+/).map(x => parseInt(x));
             for (let col = 0; col < 5; col++) {
                 const value = line[col];
-                this.content[row * 5 + col] = value;
-                if (val2Draw.has(value)) {
-                    const when = val2Draw.get(value);
-                    this.drawnWhen[row * 5 + col] = when;
-                    [this.rows[row], this.cols[col]].forEach(line => line.update(when, value));
-                }
+                const when = drawnWhen.has(value) ? drawnWhen.get(value) : NEVER;
+                this.field[row][col] = { value, when };
             }
         }
-        this.winScore = this.winValue * this.content.reduce((sum, x, i) => sum + (this.drawnWhen[i] > this.winDraw ? x : 0), 0);
+        for (let y = 0; y < 5; y++) {
+            let [winRow, winCol] = Array.from(Array(2), () => ({ value: 0, when: 0 }));
+            for (let x = 0; x < 5; x++) {
+                if (this.field[y][x].when > winRow.when)
+                    winRow = this.field[y][x];
+                if (this.field[x][y].when > winCol.when)
+                    winCol = this.field[x][y];
+            }
+            [winRow, winCol].forEach(f => { if (f.when < this.win.when)
+                this.win = f; });
+        }
+        const sum = this.field.flat().reduce((s, f) => s + (f.when > this.win.when ? f.value : 0), 0);
+        this.score = sum * this.win.value;
     }
 }
 function solve_part1(input) {
     const lines = input.split('\n');
     const draws = lines[0].split(',').map(x => parseInt(x));
-    const val2Draw = new Map(draws.map((x, i) => [x, i]));
+    const drawnWhen = new Map(draws.map((x, i) => [x, i]));
     let winnerBoard;
     for (let l = 2; l < lines.length; l += 6) {
-        const board = new Board(lines.slice(l, l + 5), val2Draw);
-        if (!winnerBoard || board.winDraw < winnerBoard.winDraw)
+        const board = new Board(lines.slice(l, l + 5), drawnWhen);
+        if (!winnerBoard || board.win.when < winnerBoard.win.when)
             winnerBoard = board;
     }
-    return winnerBoard.winScore.toString();
+    return winnerBoard.score.toString();
 }
 function solve_part2(input) {
     const lines = input.split('\n');
     const draws = lines[0].split(',').map(x => parseInt(x));
-    const val2Draw = new Map(draws.map((x, i) => [x, i]));
+    const drawnWhen = new Map(draws.map((x, i) => [x, i]));
     let loserBoard;
     for (let l = 2; l < lines.length; l += 6) {
-        const board = new Board(lines.slice(l, l + 5), val2Draw);
-        if (!loserBoard || board.winDraw > loserBoard.winDraw)
+        const board = new Board(lines.slice(l, l + 5), drawnWhen);
+        if (!loserBoard || board.win.when > loserBoard.win.when)
             loserBoard = board;
     }
-    return loserBoard.winScore.toString();
+    return loserBoard.score.toString();
 }
 // EOC
 export { solve_part1, solve_part2 };
