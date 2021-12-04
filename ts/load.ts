@@ -2,8 +2,7 @@ class DayData
 {
     name: string
     desc: string
-    input1: string
-    input2: string
+    input: string
     source: string
     solve1: ( input: string ) => string
     solve2: ( input: string ) => string
@@ -17,22 +16,20 @@ function loadDays ( rd: ( file: string ) => Promise<string> ): Array<Promise<Day
         let name = "Day " + day.toString()
         let filebase = "day" + '0'.repeat( 2 - day.toString().length ) + day.toString()
 
-        let desc: string = "desc/" + filebase + ".txt"
-        let input1: string = "inputs/" + filebase + "_1.txt"
-        let input2: string = "inputs/" + filebase + "_2.txt"
+        let desc: string = "desc/" + filebase + ".tex"
+        let input: string = "inputs/" + filebase + ".txt"
         let src: string = "ts/" + filebase + ".ts"
 
-        let promises = [ rd( desc ), rd( input1 ), rd( input2 ), rd( src ), import( "../js/" + filebase + ".js" ) ]
+        let promises = [ rd( desc ), rd( input ), rd( src ), import( "../js/" + filebase + ".js" ) ]
         days.push( Promise.all( promises ).then( function ( contents )
         {
             let dayData: DayData = new DayData
             dayData.name = name
             dayData.desc = contents[ 0 ]
-            dayData.input1 = contents[ 1 ]
-            dayData.input2 = contents[ 2 ]
-            dayData.source = contents[ 3 ].substr( 0, contents[ 3 ].indexOf( '// EOC' ) )
-            dayData.solve1 = contents[ 4 ].solve_part1
-            dayData.solve2 = contents[ 4 ].solve_part2
+            dayData.input = contents[ 1 ]
+            dayData.source = contents[ 2 ].substr( 0, contents[ 2 ].indexOf( '// EOC' ) )
+            dayData.solve1 = contents[ 3 ].solve_part1
+            dayData.solve2 = contents[ 3 ].solve_part2
             return dayData
         }
         ) )

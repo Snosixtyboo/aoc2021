@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 body {
+  overflow-x:hidden;
   padding: 0 100px 100px;
   background-color: rgb(150, 188, 236) !important;
 }
@@ -76,4 +77,10 @@ button {
     font-family: "Pacifico";
     color: #eee;
     text-shadow: 0 4px 4px #3c77b3;
+  }
+
+  #desc{
+    border-radius: 25px;
+    padding: 1em;
+    background:#fff;
   }

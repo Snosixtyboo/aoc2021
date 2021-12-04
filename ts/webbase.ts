@@ -3,11 +3,15 @@ import hljs from 'highlight.js/lib/core'
 import typescript from 'highlight.js/lib/languages/typescript'
 hljs.registerLanguage( 'typescript', typescript )
 
+import katex from 'katex'
+
+class FileNotFoundError extends Error { }
+
 function readFileWeb ( file: string ): Promise<string>
 {
     return fetch( file ).then( function ( response )
     {
-        if ( !response.ok ) throw Error( "404 " + file )
+        if ( !response.ok ) throw new FileNotFoundError( "404 " + file )
         return response.text()
     } )
 }
@@ -18,10 +22,27 @@ document.body.appendChild( buttonRow )
 let contentSpace: HTMLParagraphElement = document.createElement( "p" )
 document.body.appendChild( contentSpace )
 
-function createDay ( day: load.DayData )
+function addDescription ( day: load.DayData, dayParagraph: HTMLElement )
 {
-    let dayParagraph: HTMLParagraphElement = document.createElement( "p" )
+    let dayDescDiv: HTMLDivElement = document.createElement( "div" )
+    dayDescDiv.id = "desc"
+    let latexHTML: string = ""
+    let lastEnd: number = 0
+    const regexp: RegExp = /(?:\$(.*?)\$)/g
+    let match: RegExpExecArray
+    while ( ( match = regexp.exec( day.desc ) ) !== null )
+    {
+        latexHTML += day.desc.substring( lastEnd, match.index )
+        latexHTML += katex.renderToString( match[ 1 ] )
+        lastEnd = regexp.lastIndex
+    }
+    latexHTML += day.desc.substring( lastEnd, day.desc.length )
+    dayDescDiv.innerHTML = latexHTML
+    dayParagraph.appendChild( dayDescDiv )
+}
 
+function addSource ( day: load.DayData, dayParagraph: HTMLElement )
+{
     let dayCodeDiv: HTMLDivElement = document.createElement( "div" )
     dayCodeDiv.id = "code"
     let codeHeading: HTMLHeadingElement = document.createElement( "h2" )
@@ -34,31 +55,44 @@ function createDay ( day: load.DayData )
     dayCode.appendChild( daySrc )
     dayCodeDiv.appendChild( dayCode )
     dayParagraph.appendChild( dayCodeDiv )
+}
 
-    let partsDiv: HTMLDivElement = document.createElement( "div" )
-    partsDiv.id = "parts"
-    let parts = [ { input: day.input1, func: day.solve1 }, { input: day.input2, func: day.solve2 } ]
+function addRunnables ( day: load.DayData, dayParagraph: HTMLElement )
+{
+    let runnablesDiv: HTMLDivElement = document.createElement( "div" )
+    runnablesDiv.id = "parts"
+    let parts = [ { input: day.input, func: day.solve1 }, { input: day.input, func: day.solve2 } ]
     for ( let c: number = 0; c < 2; c++ )
     {
-        let partDiv: HTMLDivElement = document.createElement( "div" )
-        partDiv.id = "part"
-        partsDiv.append( partDiv )
+        let runnableDiv: HTMLDivElement = document.createElement( "div" )
+        runnableDiv.id = "part"
+        runnablesDiv.append( runnableDiv )
 
-        let partHeading: HTMLHeadingElement = document.createElement( "h2" )
-        partHeading.innerHTML = "Input Part " + ( c + 1 ).toString()
-        let partInput: HTMLTextAreaElement = document.createElement( "textarea" )
-        partInput.value = parts[ c ].input
-        let partRunDiv: HTMLHeadingElement = document.createElement( "div" )
-        partRunDiv.id = "partRun"
-        let partRunOutput: Text = document.createTextNode( "???" )
-        let partRunButton: HTMLButtonElement = document.createElement( "button" )
-        partRunButton.innerHTML = "Run!"
-        partRunButton.onclick = () => { partRunOutput.textContent = parts[ c ].func( partInput.value ) }
-        partRunDiv.append( partRunButton, document.createTextNode( "   Output: " ), partRunOutput )
+        let runnableHeading: HTMLHeadingElement = document.createElement( "h2" )
+        runnableHeading.innerHTML = "Input Part " + ( c + 1 ).toString()
+        let runnableInput: HTMLTextAreaElement = document.createElement( "textarea" )
+        runnableInput.value = parts[ c ].input
 
-        partDiv.append( partHeading, partInput, partRunDiv )
+        let runnableRunDiv: HTMLHeadingElement = document.createElement( "div" )
+        runnableRunDiv.id = "partRun"
+        let runnableOutput: Text = document.createTextNode( "???" )
+        let runnableRunButton: HTMLButtonElement = document.createElement( "button" )
+        runnableRunButton.innerHTML = "Run!"
+        runnableRunButton.onclick = () => { runnableOutput.textContent = parts[ c ].func( runnableInput.value ) }
+        runnableRunDiv.append( runnableRunButton, document.createTextNode( "   Output: " ), runnableOutput )
+
+        runnableDiv.append( runnableHeading, runnableInput, runnableRunDiv )
     }
-    dayParagraph.append( partsDiv )
+    dayParagraph.append( runnablesDiv )
+}
+
+function createDay ( day: load.DayData )
+{
+    let dayParagraph: HTMLParagraphElement = document.createElement( "p" )
+
+    addDescription( day, dayParagraph )
+    addSource( day, dayParagraph )
+    addRunnables( day, dayParagraph )
 
     contentSpace.appendChild( dayParagraph )
 
@@ -79,6 +113,7 @@ Promise.allSettled( load.loadDays( readFileWeb ) ).then( function ( days )
     for ( let day of days )
     {
         if ( day.status == 'fulfilled' ) createDay( day.value )
-        else console.log( "Oh, cry me a river!" )
+        else if ( day.reason instanceof FileNotFoundError ) console.log( "Oh, cry me a river!" )
+        else throw Error( day.reason )
     }
 } )
