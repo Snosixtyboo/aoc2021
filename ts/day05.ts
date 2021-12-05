@@ -8,33 +8,33 @@ class Point
 
 class Segment
 {
+    p0: Point
+    p1: Point
     constructor ( arr: number[] )
     {
-        this.points = [ new Point( arr[ 0 ], arr[ 1 ] ), new Point( arr[ 2 ], arr[ 3 ] ) ]
-        Object.seal( this.points )
+        this.p0 = new Point( arr[ 0 ], arr[ 1 ] )
+        this.p1 = new Point( arr[ 2 ], arr[ 3 ] )
     }
-    points: Point[] = []
 }
 
-function countIntersections ( lines: string[], filterFunc: ( segment ) => boolean ): number
+function countIntersections ( lines: string[], filterFunc: ( segment: Segment ) => boolean ): number
 {
-    const lineToSegment = line => ( a => new Segment( a.map( x => parseInt( x ) ) ) )( line.split( / -> |,/ ) )
+    const lineToSegment = line => new Segment( line.split( / -> |,/ ).map( x => parseInt( x ) ) )
     const segments: Segment[] = lines.map( line => lineToSegment( line ) ).filter( filterFunc )
-    const dim: Point = segments.reduce<Point>( ( prev, s ) => ( new Point(
-        Math.max( prev.x, Math.max( s.points[ 0 ].x + 1, s.points[ 1 ].x + 1 ) ),
-        Math.max( prev.y, Math.max( s.points[ 0 ].y + 1, s.points[ 1 ].y + 1 ) )
+    const dim: Point = segments.reduce<Point>( ( prev, segment ) => ( new Point(
+        Math.max( prev.x, Math.max( segment.p0.x + 1, segment.p1.x + 1 ) ),
+        Math.max( prev.y, Math.max( segment.p0.y + 1, segment.p1.y + 1 ) )
     ) ), new Point( 0, 0 ) )
 
     let intersections: number = 0
     const field = Array.from( Array( dim.y ), () => new Array<number>( dim.x ).fill( 0 ) )
     for ( const segment of segments )
     {
-        const start: Point = segment.points[ 0 ], stop: Point = segment.points[ 1 ]
-        const dir = new Point( stop.x - start.x, stop.y - start.y )
+        const dir = new Point( segment.p1.x - segment.p0.x, segment.p1.y - segment.p0.y )
         const step = new Point( dir.x < 0 ? -1 : dir.x > 0 ? 1 : 0, dir.y < 0 ? -1 : dir.y > 0 ? 1 : 0 )
-        for ( let curr = start; !curr.is( stop ); curr.x += step.x, curr.y += step.y )
+        for ( let curr = segment.p0; !curr.is( segment.p1 ); curr.x += step.x, curr.y += step.y )
             if ( ++field[ curr.y ][ curr.x ] == 2 ) intersections++
-        if ( ++field[ stop.y ][ stop.x ] == 2 ) intersections++
+        if ( ++field[ segment.p1.y ][ segment.p1.x ] == 2 ) intersections++
     }
     return intersections
 }
@@ -42,10 +42,7 @@ function countIntersections ( lines: string[], filterFunc: ( segment ) => boolea
 function solve_part1 ( input: string ): string
 {
     const lines: string[] = input.split( '\n' )
-    const result: number = countIntersections( lines, ( segment ) =>
-    {
-        return segment.points[ 1 ].y == segment.points[ 0 ].y || segment.points[ 1 ].x == segment.points[ 0 ].x
-    } )
+    const result: number = countIntersections( lines, s => s.p1.y == s.p0.y || s.p1.x == s.p0.x )
     return result.toString()
 }
 
