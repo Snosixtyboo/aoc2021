@@ -78,7 +78,17 @@ function addRunnables ( day: load.DayData, dayParagraph: HTMLElement )
         let runnableOutput: Text = document.createTextNode( "???" )
         let runnableRunButton: HTMLButtonElement = document.createElement( "button" )
         runnableRunButton.innerHTML = "Run!"
-        runnableRunButton.onclick = () => { runnableOutput.textContent = parts[ c ].func( runnableInput.value ) }
+        runnableRunButton.onclick = () =>
+        {
+            try
+            {
+                runnableOutput.textContent = parts[ c ].func( runnableInput.value )
+            }
+            catch ( err )
+            {
+                alert( "Whoops, that did not go well! Is the input perhaps malformed?" )
+            }
+        }
         runnableRunDiv.append( runnableRunButton, document.createTextNode( "   Output: " ), runnableOutput )
 
         runnableDiv.append( runnableHeading, runnableInput, runnableRunDiv )

@@ -13,7 +13,7 @@ class Board {
             }
         }
         for (let y = 0; y < 5; y++) {
-            let [winRow, winCol] = Array.from(Array(2), () => ({ value: 0, when: 0 }));
+            let [winRow, winCol] = Array.from(Array(2), () => ({ value: 0, when: -1 }));
             for (let x = 0; x < 5; x++) {
                 if (this.field[y][x].when > winRow.when)
                     winRow = this.field[y][x];
