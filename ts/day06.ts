@@ -4,11 +4,11 @@ function fishForDays ( fishDays: number[], numDays: number, cycle: number, delay
         ( i < delay ? 0 : fishDays.reduce( ( sum, d ) => sum + ( d + 1 == i ? 1 : 0 ), 0 ) )
     )
     let schools: number[] = [ 0 ]
-    for ( let simulated: number = ( cycle + delay ); simulated <= numDays; simulated++ )
+    for ( let day: number = ( cycle + delay ); day <= numDays; day++ )
     {
-        if ( simulated % cycle == delay ) schools.push( simulated )
-        addedPerDay[ simulated ] = addedPerDay[ simulated % cycle ]
-        addedPerDay[ simulated ] += schools.slice( 1 ).reduce( ( sum, s ) => sum + addedPerDay[ simulated - s ], 0 )
+        if ( day % cycle == delay ) schools.push( day )
+        addedPerDay[ day ] = addedPerDay[ day % cycle ]
+        addedPerDay[ day ] += schools.slice( 1 ).reduce( ( sum, spawned ) => sum + addedPerDay[ day - spawned ], 0 )
     }
     return addedPerDay.slice( 0, numDays + 1 ).reduce( ( sum, x ) => sum + x, fishDays.length )
 }

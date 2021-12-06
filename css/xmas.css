@@ -81,6 +81,7 @@ button {
   }
 
   #desc{
+    text-align: justify;
     border-radius: 25px;
     padding: 1em;
     background:#fff;

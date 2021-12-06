@@ -1,11 +1,11 @@
 function fishForDays(fishDays, numDays, cycle, delay) {
     let addedPerDay = Array.from(new Array(cycle + delay), (_, i) => (i < delay ? 0 : fishDays.reduce((sum, d) => sum + (d + 1 == i ? 1 : 0), 0)));
     let schools = [0];
-    for (let simulated = (cycle + delay); simulated <= numDays; simulated++) {
-        if (simulated % cycle == delay)
-            schools.push(simulated);
-        addedPerDay[simulated] = addedPerDay[simulated % cycle];
-        addedPerDay[simulated] += schools.slice(1).reduce((sum, s) => sum + addedPerDay[simulated - s], 0);
+    for (let day = (cycle + delay); day <= numDays; day++) {
+        if (day % cycle == delay)
+            schools.push(day);
+        addedPerDay[day] = addedPerDay[day % cycle];
+        addedPerDay[day] += schools.slice(1).reduce((sum, spawned) => sum + addedPerDay[day - spawned], 0);
     }
     return addedPerDay.slice(0, numDays + 1).reduce((sum, x) => sum + x, fishDays.length);
 }
