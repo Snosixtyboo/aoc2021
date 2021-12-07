@@ -16,12 +16,6 @@ function readFileWeb ( file: string ): Promise<string>
     } )
 }
 
-let buttonRow: HTMLParagraphElement = document.createElement( "p" )
-document.body.appendChild( buttonRow )
-
-let contentSpace: HTMLParagraphElement = document.createElement( "p" )
-document.body.appendChild( contentSpace )
-
 function addDescription ( day: load.DayData, dayParagraph: HTMLElement )
 {
     let dayDescDiv: HTMLDivElement = document.createElement( "div" )
@@ -118,6 +112,12 @@ function createDay ( day: load.DayData )
     buttonRow.appendChild( button )
 }
 
+let buttonRow: HTMLParagraphElement = document.createElement( "p" )
+document.body.appendChild( buttonRow )
+
+let contentSpace: HTMLParagraphElement = document.createElement( "p" )
+document.body.appendChild( contentSpace )
+
 Promise.allSettled( load.loadDays( readFileWeb ) ).then( function ( days )
 {
     for ( let day of days )
@@ -125,4 +125,16 @@ Promise.allSettled( load.loadDays( readFileWeb ) ).then( function ( days )
         if ( day.status == 'fulfilled' ) createDay( day.value )
         else console.log( "Oh, cry me a river!" )
     }
+    // let footer = document.createElement( "footer" )
+    // let p1: HTMLParagraphElement = document.createElement( "p" )
+    // p1.innerHTML = "Bernhard Kerbl"
+    // let p2: HTMLParagraphElement = document.createElement( "p" )
+    // let h1: HTMLAnchorElement = document.createElement( "a" )
+    // h1.href = "kerbl@cg.tuwien.ac.at"
+    // h1.innerText = "kerbl@cg.tuwien.ac.at"
+    // p2.appendChild( h1 )
+    // let p3: HTMLParagraphElement = document.createElement( "p" )
+    // p3.innerHTML = "Opinions, mistakes and bad jokes are my own."
+    // footer.append( p1, p2, p3 )
+    // document.body.appendChild( footer )
 } )

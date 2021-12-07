@@ -11,7 +11,7 @@ class Segment {
 function countIntersections(lines, filterFunc) {
     const lineToSegment = line => new Segment(line.split(/ -> |,/).map(x => parseInt(x)));
     const segments = lines.map(line => lineToSegment(line)).filter(filterFunc);
-    const dim = segments.reduce((prev, segment) => (new Point(Math.max(prev.x, Math.max(segment.p0.x + 1, segment.p1.x + 1)), Math.max(prev.y, Math.max(segment.p0.y + 1, segment.p1.y + 1)))), new Point(0, 0));
+    const dim = segments.reduce((prev, segment) => new Point(Math.max(prev.x, segment.p0.x + 1, segment.p1.x + 1), Math.max(prev.y, segment.p0.y + 1, segment.p1.y + 1)), new Point(0, 0));
     let intersections = 0;
     const field = Array.from(Array(dim.y), () => new Array(dim.x).fill(0));
     for (const segment of segments) {

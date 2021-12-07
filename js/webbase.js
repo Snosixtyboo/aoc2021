@@ -12,10 +12,6 @@ function readFileWeb(file) {
         return response.text();
     });
 }
-let buttonRow = document.createElement("p");
-document.body.appendChild(buttonRow);
-let contentSpace = document.createElement("p");
-document.body.appendChild(contentSpace);
 function addDescription(day, dayParagraph) {
     let dayDescDiv = document.createElement("div");
     dayDescDiv.id = "desc";
@@ -92,6 +88,10 @@ function createDay(day) {
     button.click();
     buttonRow.appendChild(button);
 }
+let buttonRow = document.createElement("p");
+document.body.appendChild(buttonRow);
+let contentSpace = document.createElement("p");
+document.body.appendChild(contentSpace);
 Promise.allSettled(load.loadDays(readFileWeb)).then(function (days) {
     for (let day of days) {
         if (day.status == 'fulfilled')
@@ -99,5 +99,17 @@ Promise.allSettled(load.loadDays(readFileWeb)).then(function (days) {
         else
             console.log("Oh, cry me a river!");
     }
+    // let footer = document.createElement( "footer" )
+    // let p1: HTMLParagraphElement = document.createElement( "p" )
+    // p1.innerHTML = "Bernhard Kerbl"
+    // let p2: HTMLParagraphElement = document.createElement( "p" )
+    // let h1: HTMLAnchorElement = document.createElement( "a" )
+    // h1.href = "kerbl@cg.tuwien.ac.at"
+    // h1.innerText = "kerbl@cg.tuwien.ac.at"
+    // p2.appendChild( h1 )
+    // let p3: HTMLParagraphElement = document.createElement( "p" )
+    // p3.innerHTML = "Opinions, mistakes and bad jokes are my own."
+    // footer.append( p1, p2, p3 )
+    // document.body.appendChild( footer )
 });
 //# sourceMappingURL=webbase.js.map

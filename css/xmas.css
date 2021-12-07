@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 body {
   overflow-x:hidden;
-  padding: 0 100px 100px;
+  padding: 0px 100px 100px;
   background-color: rgb(47, 51, 54) !important;
   /*background-color: rgb(55, 58, 61) !important;*/
 }
@@ -85,4 +85,29 @@ button {
     border-radius: 25px;
     padding: 1em;
     background:#fff;
+  }
+
+  footer {
+    position: fixed;
+    margin-top: 15px;
+    height: 50;
+    width: 100%;
+    text-align: left;
+    font-size: 0.8em;
+    color: white;
+    background:rgb(47, 51, 54);
+    bottom: 0;
+  }
+
+  footer a:link{
+    color: lightgrey;
+  }
+  footer a:hover{
+    color:white
+  }
+  footer a:active{
+    color: lightgrey;
+  }
+  footer a:visited{
+    color: lightgrey;
   }
