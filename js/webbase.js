@@ -92,27 +92,32 @@ function snow() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx = canvas.getContext('2d');
     for (let flake of flakes) {
-        flake.posY += 1;
+        flake.posY += flake.speed;
         if (flake.posY + flake.size >= canvas.height) {
             flake.posY -= canvas.height;
             flake.posX = Math.random() * canvas.width;
         }
-        const lived = (flake.posY + flake.size) / canvas.height;
+        const lived = Math.max(0, (flake.posY + flake.size) / canvas.height);
         ctx.globalAlpha = 1 - lived * lived;
         ctx.drawImage(flakeImg, flake.posX, flake.posY, flake.size, flake.size);
     }
     requestAnimationFrame(snow);
 }
 let canvas = document.createElement('canvas');
-canvas.height = 300;
+canvas.height = 350;
 canvas.width = window.innerWidth;
 let ctx = canvas.getContext('2d');
 const flakeImg = new Image();
 flakeImg.src = "snow.png";
-const numFlakes = 100;
+const numFlakes = 120;
 let flakes = [];
 for (let i = 0; i < numFlakes; i++)
-    flakes.push({ posX: Math.random() * canvas.width, posY: -Math.random() * canvas.height, size: Math.random() * 20 - 10 });
+    flakes.push({
+        posX: Math.random() * canvas.width,
+        posY: -Math.random() * canvas.height,
+        size: Math.random() * 8 + 2,
+        speed: Math.random() * 0.5 + 0.75
+    });
 document.body.appendChild(canvas);
 requestAnimationFrame(snow);
 let buttonRow = document.createElement("p");
