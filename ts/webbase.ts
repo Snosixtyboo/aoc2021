@@ -4,6 +4,7 @@ import typescript from 'highlight.js/lib/languages/typescript'
 hljs.registerLanguage( 'typescript', typescript )
 
 import katex from 'katex'
+import { random } from "lodash"
 
 class FileNotFoundError extends Error { }
 
@@ -112,6 +113,41 @@ function createDay ( day: load.DayData )
     buttonRow.appendChild( button )
 }
 
+function snow ()
+{
+    ctx.clearRect( 0, 0, canvas.width, canvas.height )
+    ctx = canvas.getContext( '2d' )
+    for ( let flake of flakes )
+    {
+        flake.posY += 1
+        if ( flake.posY + flake.size >= canvas.height ) 
+        {
+            flake.posY -= canvas.height
+            flake.posX = Math.random() * canvas.width
+        }
+        const lived: number = ( flake.posY + flake.size ) / canvas.height
+        ctx.globalAlpha = 1 - lived * lived
+        ctx.drawImage( flakeImg, flake.posX, flake.posY, flake.size, flake.size )
+    }
+    requestAnimationFrame( snow )
+}
+
+let canvas = document.createElement( 'canvas' )
+canvas.height = 300
+canvas.width = window.innerWidth
+let ctx = canvas.getContext( '2d' )
+
+const flakeImg: HTMLImageElement = new Image()
+flakeImg.src = "snow.png"
+
+const numFlakes = 100
+let flakes: { posX: number, posY: number, size: number }[] = []
+for ( let i: number = 0; i < numFlakes; i++ )
+    flakes.push( { posX: Math.random() * canvas.width, posY: - Math.random() * canvas.height, size: Math.random() * 20 - 10 } )
+
+document.body.appendChild( canvas )
+requestAnimationFrame( snow )
+
 let buttonRow: HTMLParagraphElement = document.createElement( "p" )
 document.body.appendChild( buttonRow )
 
@@ -120,21 +156,6 @@ document.body.appendChild( contentSpace )
 
 Promise.allSettled( load.loadDays( readFileWeb ) ).then( function ( days )
 {
-    let c = document.createElement( 'canvas' )
-    c.height = 300
-    c.width = window.innerWidth
-    let ctx = c.getContext( '2d' )
-    for ( var x = 0; x < c.width; x++ )
-    {
-        for ( var y = 0; y < c.height; y++ )
-        {
-            ctx.fillStyle = 'hsla(0, 0%, ' + ( 40 - ( Math.random() * 35 ) ) + '%,' + ( 1 - y / 300 ) + ')'
-            ctx.fillRect( x, y, 1, 1 )
-        }
-    }
-    document.body.style.background = 'url(' + c.toDataURL() + ')'
-    document.body.style.backgroundRepeat = "no-repeat"
-
     for ( let day of days )
     {
         if ( day.status == 'fulfilled' ) createDay( day.value )

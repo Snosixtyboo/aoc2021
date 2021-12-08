@@ -10,7 +10,7 @@ function solve_part1 ( input: string ): string
 function solve_part2 ( input: string ): string
 {
     const patterns_display: string[][] = input.split( '\n' ).map( l => l.split( '|' ) )
-    const result = patterns_display.reduce<number>( ( sum, pd ) =>
+    const result = patterns_display.reduce<number>( ( sum1, pd ) =>
     {
         let patterns: string[] = pd[ 0 ].trim().split( ' ' )
         let n: string[] = [];
@@ -32,10 +32,10 @@ function solve_part2 ( input: string ): string
         n[ 0 ] = patterns[ 0 ].length == 6 ? patterns[ 0 ] : patterns[ 1 ]
         n[ 3 ] = patterns[ 0 ].length == 6 ? patterns[ 1 ] : patterns[ 0 ]
 
-        const displayed = pd[ 1 ].trim().split( ' ' ).map( p => p.split( '' ) ).reduce<number>( ( s, d ) =>
-            s * 10 + n.findIndex( x => x.split( '' ).every( s => d.includes( s ) ) && d.every( s => x.includes( s ) ) )
+        const displayed = pd[ 1 ].trim().split( ' ' ).map( p => p.split( '' ) ).reduce<number>( ( sum2, d ) =>
+            sum2 * 10 + n.findIndex( x => x.split( '' ).every( s => d.includes( s ) ) && d.every( s => x.includes( s ) ) )
             , 0 )
-        return sum + displayed
+        return sum1 + displayed
     }, 0 )
     return result.toString()
 }

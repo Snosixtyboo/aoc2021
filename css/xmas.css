@@ -83,7 +83,6 @@ button {
 
   #desc{
     text-align: justify;
-    color: #000;
     border-radius: 25px;
     padding: 1em;
     background:#fff;
@@ -112,4 +111,12 @@ button {
   }
   footer a:visited{
     color: lightgrey;
+  }
+
+  canvas
+  {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
