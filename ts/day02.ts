@@ -1,9 +1,18 @@
+function validKey<T> ( o: T, k: string | symbol | number ): k is keyof typeof o { return k in o }
+
 function solve_part1 ( input: string ): string
 {
     const journey = { forward: 0, up: 0, down: 0 }
-    const lines: string[] = input.split( '\n' )
-    lines.forEach( line => { ( v => journey[ v[ 0 ] ] += parseInt( v[ 1 ] ) )( line.split( ' ' ) ) } )
-    const result: number = journey.forward * ( journey.down - journey.up )
+
+    input.split( '\n' ).forEach( line =>
+    {
+        const [ cmd, param ] = line.split( ' ' )
+        if ( !validKey( journey, cmd ) )
+            throw Error( "Unknown command!" )
+        journey[ cmd ] += parseInt( param )
+    } )
+
+    const result = journey.forward * ( journey.down - journey.up )
     return result.toString()
 }
 
@@ -14,9 +23,17 @@ function solve_part2 ( input: string ): string
         forward: function ( x: number ) { this.horizontal += x; this.depth += x * this.aim },
         up: function ( x: number ) { this.aim -= x }, down: function ( x: number ) { this.aim += x }
     }
-    const lines: string[] = input.split( '\n' )
-    lines.forEach( line => { ( v => submarine[ v[ 0 ] ]( parseInt( v[ 1 ] ) ) )( line.split( ' ' ) ) } )
-    const result: number = submarine.depth * submarine.horizontal
+
+    input.split( '\n' ).forEach( line =>
+    {
+        let func
+        const [ cmd, param ] = line.split( ' ' )
+        if ( !validKey( submarine, cmd ) || typeof ( func = submarine[ cmd ] ) !== 'function' )
+            throw Error( "Invalid command!" )
+        func.call( submarine, parseInt( param ) )
+    } )
+
+    const result = submarine.depth * submarine.horizontal
     return result.toString()
 }
 // EOC

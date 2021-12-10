@@ -52,5 +52,6 @@ function solve_part2(input) {
     return (loserBoard ? loserBoard.score : 0).toString();
 }
 // EOC
+console.log(null === undefined);
 export { solve_part1, solve_part2 };
 //# sourceMappingURL=day04.js.map

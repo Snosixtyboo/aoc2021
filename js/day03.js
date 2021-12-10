@@ -17,7 +17,7 @@ function solve_part2(input) {
     function filterByMCB(input, pred) {
         for (let i = 0; input.length > 1; i++) {
             const indicate = input.reduce((sum, line) => sum + (line[i] == '1' ? 1 : -1), 0);
-            const mcb = (indicate < 0 ? '0' : (indicate > 0 ? '0' : 'X'));
+            const mcb = (indicate < 0 ? '0' : (indicate > 0 ? '1' : 'X'));
             input = input.filter(line => pred(mcb, line[i]));
         }
         return input[0];

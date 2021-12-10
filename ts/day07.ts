@@ -1,19 +1,20 @@
 function solve_part1 ( input: string ): string
 {
-    const pos: number[] = input.split( ',' ).map( x => parseInt( x ) ).sort( ( a, b ) => a - b )
-    const median: number = pos[ Math.floor( pos.length / 2 ) ]
-    let result: number = pos.reduce( ( sum, p ) => sum + Math.abs( p - median ), 0 )
+    const pos = input.split( ',' ).map( x => parseInt( x ) ).sort( ( a, b ) => a - b )
+    const median = pos[ Math.floor( pos.length / 2 ) ]
+    let result = pos.reduce( ( sum, p ) => sum + Math.abs( p - median ), 0 )
     return result.toString()
 }
 
 function solve_part2 ( input: string ): string
 {
-    const pos: number[] = input.split( ',' ).map( x => parseInt( x ) )
-    const guess: number = Math.round( pos.reduce( ( sum, p ) => sum + p, 0 ) / pos.length )
-    const results: number[] = [ guess - 1, guess, guess + 1 ].map( test =>
+    const pos = input.split( ',' ).map( x => parseInt( x ) )
+
+    const guess = Math.round( pos.reduce( ( sum, p ) => sum + p, 0 ) / pos.length )
+    const results = [ guess - 1, guess, guess + 1 ].map( test =>
         pos.reduce( ( sum, p ) => 
         {
-            const n: number = Math.abs( test - p )
+            const n = Math.abs( test - p )
             return sum + ( n * n + n ) / 2
         }, 0 )
     )

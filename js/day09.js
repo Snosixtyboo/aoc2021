@@ -14,21 +14,21 @@ function solve_part2(input) {
     const f = input.split('\n').map(l => l.split('')).map(r => r.map(h => parseInt(h)));
     const rd = (x, y) => x < 0 || x >= f[0].length || y < 0 || y >= f.length ? Number.MAX_VALUE : f[y][x];
     const basins = [];
-    for (let y = 0; y < f.length; y++)
+    for (let y = 0; y < f.length; y++) {
         for (let x = 0; x < f[y].length; x++) {
-            let basinSize = 0;
+            let basinSize = 0, point;
             const visit = [{ x, y }];
-            while (visit.length != 0) {
-                const point = visit.shift();
+            while ((point = visit.shift()) !== undefined) {
                 if (rd(point.x, point.y) >= 9)
                     continue;
                 visit.splice(visit.length, 0, { x: point.x + 1, y: point.y }, { x: point.x - 1, y: point.y }, { x: point.x, y: point.y + 1 }, { x: point.x, y: point.y - 1 });
-                f[point.y][point.x] = Number.MAX_VALUE;
                 basinSize++;
+                f[point.y][point.x] = Number.MAX_VALUE;
             }
             if (basinSize)
                 basins.push(basinSize);
         }
+    }
     const result = basins.sort((a, b) => b - a).slice(0, 3).reduce((prod, x) => prod * x, 1);
     return result.toString();
 }
