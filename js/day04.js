@@ -8,7 +8,7 @@ class Board {
             const line = input[row].trim().split(/\s+/).map(x => parseInt(x));
             for (let col = 0; col < 5; col++) {
                 const value = line[col];
-                const when = drawnWhen.has(value) ? drawnWhen.get(value) : NEVER;
+                const when = drawnWhen.get(value) || NEVER;
                 this.field[row][col] = { value, when };
             }
         }
@@ -37,7 +37,7 @@ function solve_part1(input) {
         if (!winnerBoard || board.win.when < winnerBoard.win.when)
             winnerBoard = board;
     }
-    return winnerBoard.score.toString();
+    return (winnerBoard ? winnerBoard.score : 0).toString();
 }
 function solve_part2(input) {
     const lines = input.split('\n');
@@ -49,7 +49,7 @@ function solve_part2(input) {
         if (!loserBoard || board.win.when > loserBoard.win.when)
             loserBoard = board;
     }
-    return loserBoard.score.toString();
+    return (loserBoard ? loserBoard.score : 0).toString();
 }
 // EOC
 export { solve_part1, solve_part2 };

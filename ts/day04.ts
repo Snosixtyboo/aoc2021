@@ -16,7 +16,7 @@ class Board
             for ( let col: number = 0; col < 5; col++ )
             {
                 const value: number = line[ col ]
-                const when: number = drawnWhen.has( value ) ? drawnWhen.get( value ) : NEVER
+                const when: number = drawnWhen.get( value ) || NEVER
                 this.field[ row ][ col ] = { value, when }
             }
         }
@@ -42,13 +42,13 @@ function solve_part1 ( input: string ): string
     const draws: number[] = lines[ 0 ].split( ',' ).map( x => parseInt( x ) )
     const drawnWhen: Map<number, number> = new Map<number, number>( draws.map( ( x, i ) => [ x, i ] ) )
 
-    let winnerBoard: Board
+    let winnerBoard: Board | undefined
     for ( let l: number = 2; l < lines.length; l += 6 )
     {
         const board: Board = new Board( lines.slice( l, l + 5 ), drawnWhen )
         if ( !winnerBoard || board.win.when < winnerBoard.win.when ) winnerBoard = board
     }
-    return winnerBoard.score.toString()
+    return ( winnerBoard ? winnerBoard.score : 0 ).toString()
 }
 
 function solve_part2 ( input: string ): string
@@ -57,13 +57,13 @@ function solve_part2 ( input: string ): string
     const draws: number[] = lines[ 0 ].split( ',' ).map( x => parseInt( x ) )
     const drawnWhen: Map<number, number> = new Map<number, number>( draws.map( ( x, i ) => [ x, i ] ) )
 
-    let loserBoard: Board
+    let loserBoard: Board | undefined
     for ( let l: number = 2; l < lines.length; l += 6 )
     {
         const board: Board = new Board( lines.slice( l, l + 5 ), drawnWhen )
         if ( !loserBoard || board.win.when > loserBoard.win.when ) loserBoard = board
     }
-    return loserBoard.score.toString()
+    return ( loserBoard ? loserBoard.score : 0 ).toString()
 }
 // EOC
 

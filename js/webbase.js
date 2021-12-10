@@ -45,7 +45,7 @@ function addSource(day, dayParagraph) {
 function addRunnables(day, dayParagraph) {
     let runnablesDiv = document.createElement("div");
     runnablesDiv.id = "parts";
-    let parts = [{ input: day.input, func: day.solve1 }, { input: day.input, func: day.solve2 }];
+    const parts = [{ input: day.input, func: day.solve1 }, { input: day.input, func: day.solve2 }];
     for (let c = 0; c < 2; c++) {
         let runnableDiv = document.createElement("div");
         runnableDiv.id = "part";
@@ -88,9 +88,8 @@ function createDay(day) {
     button.click();
     buttonRow.appendChild(button);
 }
-function snow() {
+function snow(ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx = canvas.getContext('2d');
     for (let flake of flakes) {
         flake.posY += flake.speed;
         if (flake.posY + flake.size >= canvas.height) {
@@ -101,25 +100,27 @@ function snow() {
         ctx.globalAlpha = 1 - lived * lived;
         ctx.drawImage(flakeImg, flake.posX, flake.posY, flake.size, flake.size);
     }
-    requestAnimationFrame(snow);
+    requestAnimationFrame(() => snow(ctx));
 }
-let canvas = document.createElement('canvas');
-canvas.height = 350;
-canvas.width = window.innerWidth;
-let ctx = canvas.getContext('2d');
 const flakeImg = new Image();
 flakeImg.src = "snow.png";
-const numFlakes = 120;
 let flakes = [];
-for (let i = 0; i < numFlakes; i++)
-    flakes.push({
-        posX: Math.random() * canvas.width,
-        posY: -Math.random() * canvas.height,
-        size: Math.random() * 8 + 2,
-        speed: Math.random() * 0.5 + 0.75
-    });
-document.body.appendChild(canvas);
-requestAnimationFrame(snow);
+let canvas = document.createElement('canvas');
+canvas.height = 500;
+canvas.width = window.innerWidth;
+const ctx = canvas.getContext('2d');
+if (ctx !== null) {
+    const numFlakes = 160;
+    for (let i = 0; i < numFlakes; i++)
+        flakes.push({
+            posX: Math.random() * canvas.width,
+            posY: -Math.random() * canvas.height,
+            size: Math.random() * 8 + 2,
+            speed: Math.random() * 0.5 + 0.75
+        });
+    document.body.appendChild(canvas);
+    requestAnimationFrame(() => snow(ctx));
+}
 let buttonRow = document.createElement("p");
 document.body.appendChild(buttonRow);
 let contentSpace = document.createElement("p");

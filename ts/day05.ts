@@ -19,7 +19,7 @@ class Segment
 
 function countIntersections ( lines: string[], filterFunc: ( segment: Segment ) => boolean ): number
 {
-    const lineToSegment = line => new Segment( line.split( / -> |,/ ).map( x => parseInt( x ) ) )
+    const lineToSegment = ( line: string ) => new Segment( line.split( / -> |,/ ).map( x => parseInt( x ) ) )
     const segments: Segment[] = lines.map( line => lineToSegment( line ) ).filter( filterFunc )
     const dim: Point = segments.reduce<Point>( ( prev, segment ) =>
         new Point(

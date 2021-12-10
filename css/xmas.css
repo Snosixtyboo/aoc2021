@@ -89,6 +89,7 @@ button {
   }
 
   footer {
+    z-index: 3;
     position: fixed;
     height: 50;
     width: 100%;
@@ -113,10 +114,17 @@ button {
     color: lightgrey;
   }
 
+  p
+  {
+    position: relative;
+    z-index: 2;
+  }
+
   canvas
   {
+    z-index: 1;
     pointer-events: none;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
   }

@@ -1,7 +1,7 @@
 function solve_part1 ( input: string ): string
 {
     const f: number[][] = input.split( '\n' ).map( l => l.split( '' ) ).map( r => r.map( h => parseInt( h ) ) )
-    const rd = ( x, y ) => x < 0 || x >= f[ 0 ].length || y < 0 || y >= f.length ? Number.MAX_VALUE : f[ y ][ x ]
+    const rd = ( x: number, y: number ) => x < 0 || x >= f[ 0 ].length || y < 0 || y >= f.length ? Number.MAX_VALUE : f[ y ][ x ]
     const result: number = f.reduce<number>( ( sum1, row, y ) =>
     {
         return sum1 + row.reduce<number>( ( sum2, ref, x ) => 
@@ -17,7 +17,7 @@ function solve_part1 ( input: string ): string
 function solve_part2 ( input: string ): string
 {
     const f: number[][] = input.split( '\n' ).map( l => l.split( '' ) ).map( r => r.map( h => parseInt( h ) ) )
-    const rd = ( x, y ) => x < 0 || x >= f[ 0 ].length || y < 0 || y >= f.length ? Number.MAX_VALUE : f[ y ][ x ]
+    const rd = ( x: number, y: number ) => x < 0 || x >= f[ 0 ].length || y < 0 || y >= f.length ? Number.MAX_VALUE : f[ y ][ x ]
     const basins: number[] = []
     for ( let y: number = 0; y < f.length; y++ )
         for ( let x: number = 0; x < f[ y ].length; x++ )
@@ -26,7 +26,7 @@ function solve_part2 ( input: string ): string
             const visit: { x: number, y: number }[] = [ { x, y } ]
             while ( visit.length != 0 )
             {
-                const point: { x: number, y: number } = visit.shift()
+                const point = <{ x: number, y: number }> visit.shift()
                 if ( rd( point.x, point.y ) >= 9 ) continue
                 visit.splice( visit.length, 0,
                     { x: point.x + 1, y: point.y }, { x: point.x - 1, y: point.y },
@@ -41,5 +41,7 @@ function solve_part2 ( input: string ): string
     return result.toString()
 }
 // EOC
+
+
 
 export { solve_part1, solve_part2 }

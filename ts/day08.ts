@@ -14,20 +14,20 @@ function solve_part2 ( input: string ): string
     {
         let patterns: string[] = pd[ 0 ].trim().split( ' ' )
         let n: string[] = [];
-        [ n[ 1 ], n[ 4 ], n[ 7 ], n[ 8 ] ] = [ 2, 4, 3, 7 ].map( count => patterns.find( d => d.length == count ) )
+        [ n[ 1 ], n[ 4 ], n[ 7 ], n[ 8 ] ] = [ 2, 4, 3, 7 ].map( count => <string> patterns.find( d => d.length == count ) )
         patterns = patterns.filter( p => ![ n[ 1 ], n[ 4 ], n[ 7 ], n[ 8 ] ].some( x => x == p ) )
 
         const r: string[] = n[ 1 ].split( '' )
         const tl: string[] = n[ 4 ].split( '' ).filter( s => !n[ 1 ].includes( s ) )
         const bl: string[] = n[ 8 ].split( '' ).filter( s => !n[ 4 ].includes( s ) && !n[ 7 ].includes( s ) )
 
-        n[ 6 ] = patterns.find( p => tl.every( s => p.includes( s ) ) && bl.every( s => p.includes( s ) ) )
+        n[ 6 ] = <string> patterns.find( p => tl.every( s => p.includes( s ) ) && bl.every( s => p.includes( s ) ) )
         patterns = patterns.filter( p => p != n[ 6 ] )
-        n[ 9 ] = patterns.find( p => r.every( s => p.includes( s ) ) && tl.every( s => p.includes( s ) ) )
+        n[ 9 ] = <string> patterns.find( p => r.every( s => p.includes( s ) ) && tl.every( s => p.includes( s ) ) )
         patterns = patterns.filter( p => p != n[ 9 ] )
-        n[ 5 ] = patterns.find( p => tl.every( s => p.includes( s ) ) )
+        n[ 5 ] = <string> patterns.find( p => tl.every( s => p.includes( s ) ) )
         patterns = patterns.filter( p => p != n[ 5 ] )
-        n[ 2 ] = patterns.find( p => !r.every( s => p.includes( s ) ) )
+        n[ 2 ] = <string> patterns.find( p => !r.every( s => p.includes( s ) ) )
         patterns = patterns.filter( p => p != n[ 2 ] )
         n[ 0 ] = patterns[ 0 ].length == 6 ? patterns[ 0 ] : patterns[ 1 ]
         n[ 3 ] = patterns[ 0 ].length == 6 ? patterns[ 1 ] : patterns[ 0 ]

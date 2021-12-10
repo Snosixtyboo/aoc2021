@@ -1,4 +1,12 @@
 class DayData {
+    constructor() {
+        this.name = "";
+        this.desc = "";
+        this.input = "";
+        this.source = "";
+        this.solve1 = () => "";
+        this.solve2 = () => "";
+    }
 }
 function loadDays(rd) {
     let days = new Array();

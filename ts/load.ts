@@ -1,11 +1,11 @@
 class DayData
 {
-    name: string
-    desc: string
-    input: string
-    source: string
-    solve1: ( input: string ) => string
-    solve2: ( input: string ) => string
+    name: string = ""
+    desc: string = ""
+    input: string = ""
+    source: string = ""
+    solve1: ( input: string ) => string = () => ""
+    solve2: ( input: string ) => string = () => ""
 }
 
 function loadDays ( rd: ( file: string ) => Promise<string> ): Array<Promise<DayData>>

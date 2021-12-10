@@ -1,3 +1,4 @@
+"use strict";
 // import * as load from "./load"
 // import * as fs from "fs"
 // const readFileNode: load.FileReadFunc = function ( file: string ): { success: boolean, content: string } 
