@@ -1,44 +1,34 @@
-class Vector
-{
-    public x: number
-    public y: number
-
-    public constructor ( x: number, y: number ) { this.x = x, this.y = y }
-
-    public is ( b: Vector ) { return this.x == b.x && this.y == b.y }
-}
-
 class Segment
 {
-    public p0: Vector
-    public p1: Vector
+    public p0: readonly [ number, number ]
+    public p1: readonly [ number, number ]
 
-    public constructor ( arr: number[] )
+    public constructor ( arr: ReadonlyArray<number> )
     {
-        this.p0 = new Vector( arr[ 0 ], arr[ 1 ] )
-        this.p1 = new Vector( arr[ 2 ], arr[ 3 ] )
+        this.p0 = [ arr[ 0 ], arr[ 1 ] ]
+        this.p1 = [ arr[ 2 ], arr[ 3 ] ]
     }
 }
 
-function countIntersections ( lines: string[], filterFunc: ( segment: Segment ) => boolean ): number
+function is ( a: readonly [ number, number ], b: readonly [ number, number ] ) { return a[ 0 ] == b[ 0 ] && a[ 1 ] == b[ 1 ] }
+
+function countIntersections ( lines: string[], filterFunc: ( seg: Readonly<Segment> ) => boolean ): number
 {
     const lineToSegment = ( line: string ) => new Segment( line.split( / -> |,/ ).map( x => parseInt( x ) ) )
 
     const segments = lines.map( line => lineToSegment( line ) ).filter( filterFunc )
-    const dim = segments.reduce<Vector>( ( prev, segment ) =>
-        new Vector(
-            Math.max( prev.x, segment.p0.x + 1, segment.p1.x + 1 ),
-            Math.max( prev.y, segment.p0.y + 1, segment.p1.y + 1 )
-        ), new Vector( 0, 0 ) )
+    const dim = segments.reduce<[ number, number ]>( ( prev, seg ) => [
+        Math.max( prev[ 0 ], seg.p0[ 0 ] + 1, seg.p1[ 0 ] + 1 ),
+        Math.max( prev[ 1 ], seg.p0[ 1 ] + 1, seg.p1[ 1 ] + 1 ) ], [ 0, 0 ] )
 
     let intersections = 0
-    const field = Array.from( Array( dim.y ), () => new Array<number>( dim.x ).fill( 0 ) )
-    for ( const segment of segments )
+    const field = Array.from( Array( dim[ 1 ] ), () => new Array<number>( dim[ 0 ] ).fill( 0 ) )
+    for ( const seg of segments )
     {
-        const dir = new Vector( Math.sign( segment.p1.x - segment.p0.x ), Math.sign( segment.p1.y - segment.p0.y ) )
-        for ( let curr = segment.p0; !curr.is( segment.p1 ); curr.x += dir.x, curr.y += dir.y )
-            if ( ++field[ curr.y ][ curr.x ] == 2 ) intersections++
-        if ( ++field[ segment.p1.y ][ segment.p1.x ] == 2 ) intersections++
+        const d = [ Math.sign( seg.p1[ 0 ] - seg.p0[ 0 ] ), Math.sign( seg.p1[ 1 ] - seg.p0[ 1 ] ) ]
+        for ( const c: [ number, number ] = [ seg.p0[ 0 ], seg.p0[ 1 ] ]; !is( c, seg.p1 ); c[ 0 ] += d[ 0 ], c[ 1 ] += d[ 1 ] )
+            if ( ++field[ c[ 1 ] ][ c[ 0 ] ] == 2 ) intersections++
+        if ( ++field[ seg.p1[ 1 ] ][ seg.p1[ 0 ] ] == 2 ) intersections++
     }
     return intersections
 }
@@ -46,7 +36,7 @@ function countIntersections ( lines: string[], filterFunc: ( segment: Segment ) 
 function solve_part1 ( input: string ): string
 {
     const lines = input.split( '\n' )
-    const result = countIntersections( lines, s => s.p1.y == s.p0.y || s.p1.x == s.p0.x )
+    const result = countIntersections( lines, s => s.p1[ 1 ] == s.p0[ 1 ] || s.p1[ 0 ] == s.p0[ 0 ] )
     return result.toString()
 }
 

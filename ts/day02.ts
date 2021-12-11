@@ -1,4 +1,4 @@
-function validKey<T> ( o: T, k: string | symbol | number ): k is keyof typeof o { return k in o }
+function validKey<T> ( o: T, k: string | symbol | number ): k is keyof T { return k in o }
 
 function solve_part1 ( input: string ): string
 {
