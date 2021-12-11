@@ -20,8 +20,9 @@ function solve_part2 ( input: string ): string
 {
     const submarine = {
         horizontal: 0, depth: 0, aim: 0,
-        forward: function ( x: number ) { this.horizontal += x; this.depth += x * this.aim },
-        up: function ( x: number ) { this.aim -= x }, down: function ( x: number ) { this.aim += x }
+        up: function ( x: number ) { this.aim -= x },
+        down: function ( x: number ) { this.aim += x },
+        forward: function ( x: number ) { this.horizontal += x; this.depth += x * this.aim }
     }
 
     input.split( '\n' ).forEach( line =>
