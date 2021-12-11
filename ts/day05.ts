@@ -19,16 +19,21 @@ function countIntersections ( lines: string[], filterFunc: ( seg: Readonly<Segme
     const segments = lines.map( line => lineToSegment( line ) ).filter( filterFunc )
     const dim = segments.reduce<[ number, number ]>( ( prev, seg ) => [
         Math.max( prev[ 0 ], seg.p0[ 0 ] + 1, seg.p1[ 0 ] + 1 ),
-        Math.max( prev[ 1 ], seg.p0[ 1 ] + 1, seg.p1[ 1 ] + 1 ) ], [ 0, 0 ] )
+        Math.max( prev[ 1 ], seg.p0[ 1 ] + 1, seg.p1[ 1 ] + 1 ) ],
+        [ 0, 0 ] )
 
     let intersections = 0
     const field = Array.from( Array( dim[ 1 ] ), () => new Array<number>( dim[ 0 ] ).fill( 0 ) )
     for ( const seg of segments )
     {
         const d = [ Math.sign( seg.p1[ 0 ] - seg.p0[ 0 ] ), Math.sign( seg.p1[ 1 ] - seg.p0[ 1 ] ) ]
+
         for ( const c: [ number, number ] = [ seg.p0[ 0 ], seg.p0[ 1 ] ]; !is( c, seg.p1 ); c[ 0 ] += d[ 0 ], c[ 1 ] += d[ 1 ] )
-            if ( ++field[ c[ 1 ] ][ c[ 0 ] ] == 2 ) intersections++
-        if ( ++field[ seg.p1[ 1 ] ][ seg.p1[ 0 ] ] == 2 ) intersections++
+            if ( ++field[ c[ 1 ] ][ c[ 0 ] ] == 2 )
+                intersections++
+
+        if ( ++field[ seg.p1[ 1 ] ][ seg.p1[ 0 ] ] == 2 )
+            intersections++
     }
     return intersections
 }

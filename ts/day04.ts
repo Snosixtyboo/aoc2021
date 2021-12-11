@@ -26,8 +26,10 @@ class Board
             let [ winRow, winCol ] = Array.from( Array( 2 ), () => ( { value: 0, when: -1 } ) )
             for ( let x = 0; x < 5; x++ )
             {
-                if ( this.field[ y ][ x ].when > winRow.when ) winRow = this.field[ y ][ x ]
-                if ( this.field[ x ][ y ].when > winCol.when ) winCol = this.field[ x ][ y ]
+                if ( this.field[ y ][ x ].when > winRow.when )
+                    winRow = this.field[ y ][ x ]
+                if ( this.field[ x ][ y ].when > winCol.when )
+                    winCol = this.field[ x ][ y ]
             }
             [ winRow, winCol ].forEach( f => { if ( f.when < this.win.when ) this.win = f } )
         }
@@ -47,7 +49,8 @@ function solve_part1 ( input: string ): string
     for ( let l = 2; l < lines.length; l += 6 )
     {
         const board = new Board( lines.slice( l, l + 5 ), drawnWhen )
-        if ( !winnerBoard || board.win.when < winnerBoard.win.when ) winnerBoard = board
+        if ( !winnerBoard || board.win.when < winnerBoard.win.when )
+            winnerBoard = board
     }
 
     return ( winnerBoard ? winnerBoard.score : 0 ).toString()
@@ -63,7 +66,8 @@ function solve_part2 ( input: string ): string
     for ( let l = 2; l < lines.length; l += 6 )
     {
         const board = new Board( lines.slice( l, l + 5 ), drawnWhen )
-        if ( !loserBoard || board.win.when > loserBoard.win.when ) loserBoard = board
+        if ( !loserBoard || board.win.when > loserBoard.win.when )
+            loserBoard = board
     }
 
     return ( loserBoard ? loserBoard.score : 0 ).toString()
