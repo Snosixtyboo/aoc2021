@@ -5,39 +5,34 @@ function simulateOctopi ( lines: readonly string[], pred: ( phase: number, lastF
     const state = { phase: 0, lastFlashes: 0, allFlashes: 0 }
     for ( state.phase = 0; !pred( state.phase, state.lastFlashes ); state.phase++ )
     {
-        let toUpdate = new Set<readonly [ number, number ]>()
+        let toUpdate = new Array<Readonly<{ x: number, y: number }>>()
         octopi.forEach( ( row, y ) => row.forEach( ( _, x ) => 
         {
             if ( ++row[ x ] == 10 )
-                toUpdate.add( [ x, y ] )
+                toUpdate.push( { x, y } )
         } ) )
 
         state.lastFlashes = 0
-        while ( toUpdate.size > 0 )
+        while ( toUpdate.length > 0 )
         {
-            const toUpdateNext = new Set<readonly [ number, number ]>()
+            const toUpdateNext = new Array<Readonly<{ x: number, y: number }>>()
             for ( const p of toUpdate )
             {
-                for ( let y = Math.max( 0, p[ 1 ] - 1 ); y < Math.min( octopi.length, p[ 1 ] + 2 ); y++ )
+                state.lastFlashes++
+                state.allFlashes++
+                octopi[ p.y ][ p.x ] = 0
+
+                for ( let y = Math.max( 0, p.y - 1 ); y < Math.min( octopi.length, p.y + 2 ); y++ )
                 {
-                    for ( let x = Math.max( 0, p[ 0 ] - 1 ); x < Math.min( octopi[ y ].length, p[ 0 ] + 2 ); x++ )
+                    for ( let x = Math.max( 0, p.x - 1 ); x < Math.min( octopi[ y ].length, p.x + 2 ); x++ )
                     {
-                        if ( ++octopi[ y ][ x ] == 10 )
-                            toUpdateNext.add( [ x, y ] )
+                        if ( octopi[ y ][ x ] != 0 && ++octopi[ y ][ x ] == 10 )
+                            toUpdateNext.push( { x, y } )
                     }
                 }
             }
             toUpdate = toUpdateNext
         }
-        octopi.forEach( ( row, y ) => row.forEach( ( _, x ) => 
-        {
-            if ( row[ x ] >= 10 )
-            {
-                row[ x ] = 0
-                state.lastFlashes++
-            }
-        } ) )
-        state.allFlashes += state.lastFlashes
     }
     return state
 }
