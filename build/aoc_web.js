@@ -21833,9 +21833,7 @@
         let dayCode = document.createElement("pre");
         let daySrc = document.createElement("code");
         daySrc.appendChild(document.createTextNode(day.source));
-        console.log(day.source);
         core.highlightElement(daySrc);
-        console.log(daySrc);
         dayCode.appendChild(daySrc);
         dayCodeDiv.appendChild(dayCode);
         dayParagraph.appendChild(dayCodeDiv);
