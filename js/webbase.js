@@ -1,6 +1,8 @@
 import * as load from "./load";
 import hljs from 'highlight.js/lib/core';
 import typescript from 'highlight.js/lib/languages/typescript';
+import rust from 'highlight.js/lib/languages/rust';
+hljs.registerLanguage('rust', rust);
 hljs.registerLanguage('typescript', typescript);
 import katex from 'katex';
 class FileNotFoundError extends Error {
@@ -37,7 +39,9 @@ function addSource(day, dayParagraph) {
     let dayCode = document.createElement("pre");
     let daySrc = document.createElement("code");
     daySrc.appendChild(document.createTextNode(day.source));
+    console.log(day.source);
     hljs.highlightElement(daySrc);
+    console.log(daySrc);
     dayCode.appendChild(daySrc);
     dayCodeDiv.appendChild(dayCode);
     dayParagraph.appendChild(dayCodeDiv);
