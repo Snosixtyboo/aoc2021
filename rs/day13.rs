@@ -1,4 +1,4 @@
-pub fn part1() -> String {
+fn part1() -> String {
     let v: u64 = 42;
     return v.to_string();
 }
