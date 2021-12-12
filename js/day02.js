@@ -13,8 +13,9 @@ function solve_part1(input) {
 function solve_part2(input) {
     const submarine = {
         horizontal: 0, depth: 0, aim: 0,
-        forward: function (x) { this.horizontal += x; this.depth += x * this.aim; },
-        up: function (x) { this.aim -= x; }, down: function (x) { this.aim += x; }
+        up: function (x) { this.aim -= x; },
+        down: function (x) { this.aim += x; },
+        forward: function (x) { this.horizontal += x; this.depth += x * this.aim; }
     };
     input.split('\n').forEach(line => {
         let func;

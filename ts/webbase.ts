@@ -72,17 +72,21 @@ function addRunnables ( day: load.DayData, dayParagraph: HTMLElement )
         let runnableOutput: Text = document.createTextNode( "???" )
         let runnableRunButton: HTMLButtonElement = document.createElement( "button" )
         runnableRunButton.innerHTML = "Run!"
-        runnableRunButton.onclick = () =>
+        runnableRunButton.onclick = ( ( c: number ) => () =>
         {
             try
             {
-                runnableOutput.textContent = parts[ c ].func( runnableInput.value )
+                const before = performance.now()
+                const result = parts[ c ].func( runnableInput.value )
+                const diff = performance.now() - before
+                runnableOutput.textContent = result + ", Time: " + diff.toFixed( 2 ) + " ms"
             }
             catch ( err )
             {
                 alert( "Whoops, that did not go well! Is the input perhaps malformed?" )
             }
-        }
+        } )( c ) // IIFE. Shouldn't be necessary, but hey!
+
         runnableRunDiv.append( runnableRunButton, document.createTextNode( "   Output: " ), runnableOutput )
 
         runnableDiv.append( runnableHeading, runnableInput, runnableRunDiv )
