@@ -43,6 +43,8 @@ function addSource(day, dayParagraph) {
     dayParagraph.appendChild(dayCodeDiv);
 }
 function addRunnables(day, dayParagraph) {
+    if (day.init !== undefined)
+        day.init();
     let runnablesDiv = document.createElement("div");
     runnablesDiv.id = "parts";
     const parts = [{ input: day.input, func: day.solve1 }, { input: day.input, func: day.solve2 }];
@@ -67,7 +69,7 @@ function addRunnables(day, dayParagraph) {
                 runnableOutput.textContent = result + ", Time: " + diff.toFixed(2) + " ms";
             }
             catch (err) {
-                alert("Whoops, that did not go well! Is the input perhaps malformed?");
+                console.log(err);
             }
         })(c); // IIFE. Shouldn't be necessary, but hey!
         runnableRunDiv.append(runnableRunButton, document.createTextNode("   Output: "), runnableOutput);

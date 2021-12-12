@@ -4,6 +4,7 @@ import typescript from 'highlight.js/lib/languages/typescript'
 hljs.registerLanguage( 'typescript', typescript )
 
 import katex from 'katex'
+import { solve_part1 } from "../pkg/day13"
 
 class FileNotFoundError extends Error { }
 
@@ -53,6 +54,9 @@ function addSource ( day: load.DayData, dayParagraph: HTMLElement )
 
 function addRunnables ( day: load.DayData, dayParagraph: HTMLElement )
 {
+    if ( day.init !== undefined )
+        day.init()
+
     let runnablesDiv: HTMLDivElement = document.createElement( "div" )
     runnablesDiv.id = "parts"
     const parts = [ { input: day.input, func: day.solve1 }, { input: day.input, func: day.solve2 } ]
@@ -83,7 +87,7 @@ function addRunnables ( day: load.DayData, dayParagraph: HTMLElement )
             }
             catch ( err )
             {
-                alert( "Whoops, that did not go well! Is the input perhaps malformed?" )
+                console.log( err )
             }
         } )( c ) // IIFE. Shouldn't be necessary, but hey!
 
