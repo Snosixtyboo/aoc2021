@@ -22,7 +22,7 @@
             let desc = "desc/" + filebase + ".tex";
             let input = "inputs/" + filebase + ".txt";
             let srcTs = "ts/" + filebase + ".ts";
-            let srcRs = "rs/" + filebase + ".rs";
+            let srcRs = "rs/" + filebase + "/" + filebase + ".rs";
             let src = Promise.allSettled([rd(srcTs), rd(srcRs)]).then(content => {
                 if (content[0].status == "fulfilled")
                     return content[0].value;

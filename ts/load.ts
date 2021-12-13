@@ -20,7 +20,7 @@ function loadDays ( rd: ( file: string ) => Promise<string> ): Array<Promise<Day
         let desc: string = "desc/" + filebase + ".tex"
         let input: string = "inputs/" + filebase + ".txt"
         let srcTs: string = "ts/" + filebase + ".ts"
-        let srcRs: string = "rs/" + filebase + ".rs"
+        let srcRs: string = "rs/" + filebase + "/" + filebase + ".rs"
         let src = Promise.allSettled( [ rd( srcTs ), rd( srcRs ) ] ).then( content => 
         {
             if ( content[ 0 ].status == "fulfilled" )

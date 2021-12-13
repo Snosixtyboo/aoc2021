@@ -58,24 +58,24 @@ function addRunnables ( day: load.DayData, dayParagraph: HTMLElement )
     if ( day.init !== undefined )
         day.init()
 
-    let runnablesDiv: HTMLDivElement = document.createElement( "div" )
+    let runnablesDiv = document.createElement( "div" )
     runnablesDiv.id = "parts"
     const parts = [ { input: day.input, func: day.solve1 }, { input: day.input, func: day.solve2 } ]
     for ( let c: number = 0; c < 2; c++ )
     {
-        let runnableDiv: HTMLDivElement = document.createElement( "div" )
+        let runnableDiv = document.createElement( "div" )
         runnableDiv.id = "part"
         runnablesDiv.append( runnableDiv )
 
-        let runnableHeading: HTMLHeadingElement = document.createElement( "h2" )
+        let runnableHeading = document.createElement( "h2" )
         runnableHeading.innerHTML = "Input Part " + ( c + 1 ).toString()
-        let runnableInput: HTMLTextAreaElement = document.createElement( "textarea" )
+        let runnableInput = document.createElement( "textarea" )
         runnableInput.value = parts[ c ].input
 
-        let runnableRunDiv: HTMLHeadingElement = document.createElement( "div" )
+        let runnableRunDiv = document.createElement( "div" )
         runnableRunDiv.id = "partRun"
-        let runnableOutput: Text = document.createTextNode( "???" )
-        let runnableRunButton: HTMLButtonElement = document.createElement( "button" )
+        let runnableOutput = document.createTextNode( "???" )
+        let runnableRunButton = document.createElement( "button" )
         runnableRunButton.innerHTML = "Run!"
         runnableRunButton.onclick = ( ( c: number ) => () =>
         {
