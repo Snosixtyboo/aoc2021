@@ -5,7 +5,7 @@ struct Instruction {
     value: usize,
 }
 
-fn parse_input(lines: &Vec<&str>) -> (Vec<[usize; 2]>, Vec<Instruction>) {
+fn parse_input(lines: &Vec<&str>) -> (Vec<([usize; 2])>, Vec<Instruction>) {
     let mut instructions = Vec::<Instruction>::new();
     let mut points = Vec::<[usize; 2]>::new();
 
@@ -29,13 +29,13 @@ fn parse_input(lines: &Vec<&str>) -> (Vec<[usize; 2]>, Vec<Instruction>) {
     return (points, instructions);
 }
 
-fn part1(input: String) -> String {
+fn part1(input: &str) -> String {
     let lines = input.split("\n").collect::<Vec<&str>>();
     let (points, instructions) = parse_input(&lines);
 
     let mut folded_points = HashSet::<[usize; 2]>::new();
     for point in &points {
-        let mut folded = point.clone();
+        let mut folded = *point;
 
         let inst = instructions.first().unwrap();
         if folded[inst.axis] > inst.value {
@@ -48,13 +48,13 @@ fn part1(input: String) -> String {
     return result.to_string();
 }
 
-fn part2(input: String) -> String {
+fn part2(input: &str) -> String {
     let lines = input.split("\n").collect::<Vec<&str>>();
     let (points, instructions) = parse_input(&lines);
 
     let mut pattern = vec![vec!['.'; 5 * 8]; 6];
     for point in &points {
-        let mut folded = point.clone();
+        let mut folded = *point;
 
         for inst in &instructions {
             if folded[inst.axis] > inst.value {
@@ -119,15 +119,16 @@ use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub fn solve_part2(input: String) -> String {
-    return part2(input);
+    return part2(&input);
 }
 
 #[wasm_bindgen]
 pub fn solve_part1(input: String) -> String {
-    return part1(input);
+    return part1(&input);
 }
 
 fn main() {
+    let s = "asdf";
     println!(
         "{}",
         solve_part2(String::from(

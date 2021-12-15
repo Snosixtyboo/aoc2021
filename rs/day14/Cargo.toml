@@ -1,0 +1,21 @@
+[package]
+name = "AOC"
+version = "0.1.0"
+authors = ["Bernhard Kerbl"]
+edition = "2021"
+
+[lib]
+name = "day14"
+path = "day14.rs"
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "day14"
+path = "day14.rs"
+
+[dependencies]
+wasm-bindgen = "0.2.63"
+ndarray = "0.15.4"
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.13"
